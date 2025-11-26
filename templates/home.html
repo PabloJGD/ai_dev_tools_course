@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<a href="{% url 'todo_create' %}" class="btn">Add New TODO</a>
+<hr>
+{% for todo in todos %}
+<div class="todo-item">
+    <div>
+        <h3 class="{% if todo.is_completed %}completed{% endif %}">{{ todo.title }}</h3>
+        <p>{{ todo.description }}</p>
+        <small>Due: {{ todo.due_date|default:"No due date" }}</small>
+    </div>
+    <div class="actions">
+        <a href="{% url 'todo_complete' todo.pk %}" class="btn btn-success">
+            {% if todo.is_completed %}Undo{% else %}Done{% endif %}
+        </a>
+        <a href="{% url 'todo_update' todo.pk %}" class="btn">Edit</a>
+        <a href="{% url 'todo_delete' todo.pk %}" class="btn btn-danger">Delete</a>
+    </div>
+</div>
+{% empty %}
+<p>No TODOs yet.</p>
+{% endfor %}
+{% endblock %}
